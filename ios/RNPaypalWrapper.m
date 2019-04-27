@@ -99,11 +99,17 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)options resolver:(RCTPromiseResolveBlock)r
     NSString *price = [RCTConvert NSString:options[@"price"]];
     NSString *currency = [RCTConvert NSString:options[@"currency"]];
     NSString *description = [RCTConvert NSString:options[@"description"]];
+    NSString *intentParam = [RCTConvert NSString:options[@"intent"]];
+    PayPalPaymentIntent intent = PayPalPaymentIntentSale;
+    if ([intentParam isEqualToString:@"authorize"]) {
+        intent = PayPalPaymentIntentAuthorize;
+    }
     
     self.payment = [[PayPalPayment alloc] init];
     [self.payment setAmount:[[NSDecimalNumber alloc] initWithString:price]];
     [self.payment setCurrencyCode:currency];
     [self.payment setShortDescription:description];
+    [self.payment setIntent:intent];
     
     self.configuration = [[PayPalConfiguration alloc] init];
     [self.configuration setAcceptCreditCards:true];

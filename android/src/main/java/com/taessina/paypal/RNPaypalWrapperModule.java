@@ -155,17 +155,20 @@ public class RNPaypalWrapperModule extends ReactContextBaseJavaModule implements
   @ReactMethod
   public void pay(ReadableMap params, Promise promise) {
     this.promise = promise;
-
     String price = params.getString("price");
     String currency = params.getString("currency");
     String description = params.getString("description");
-
+    String intentParam = params.getString("intent");
+    String paymentIntent = PayPalPayment.PAYMENT_INTENT_SALE;
+    if (intentParam.equals("authorize")) {
+      paymentIntent = PayPalPayment.PAYMENT_INTENT_AUTHORIZE;
+    }
     PayPalPayment payment =
       new PayPalPayment(
         new BigDecimal(price),
         currency,
         description,
-        PayPalPayment.PAYMENT_INTENT_SALE
+              paymentIntent//PayPalPayment.PAYMENT_INTENT_SALE
       );
 
     payment.enablePayPalShippingAddressesRetrieval(true);
