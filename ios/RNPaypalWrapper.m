@@ -52,6 +52,7 @@ RCT_EXPORT_METHOD(initializeWithOptions:(NSString *) environment clientId:(NSStr
         NSString *merchantUserAgreementUri = [RCTConvert NSString:options[@"merchantUserAgreementUri"]];
 
         self.configuration = [[PayPalConfiguration alloc] init];
+        [self.configuration setAcceptCreditCards:false];
         self.configuration.merchantName = merchantName;
         self.configuration.merchantPrivacyPolicyURL = [NSURL URLWithString:merchantPrivacyPolicyUri];
         self.configuration.merchantUserAgreementURL = [NSURL URLWithString:merchantUserAgreementUri];
@@ -112,7 +113,7 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)options resolver:(RCTPromiseResolveBlock)r
     [self.payment setIntent:intent];
     
     self.configuration = [[PayPalConfiguration alloc] init];
-    [self.configuration setAcceptCreditCards:true];
+    [self.configuration setAcceptCreditCards:false];
     [self.configuration setPayPalShippingAddressOption:PayPalShippingAddressOptionPayPal];
     
     PayPalPaymentViewController *vc = [[PayPalPaymentViewController alloc] initWithPayment:self.payment

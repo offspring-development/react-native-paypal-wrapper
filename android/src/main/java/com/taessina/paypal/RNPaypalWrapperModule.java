@@ -126,7 +126,7 @@ public class RNPaypalWrapperModule extends ReactContextBaseJavaModule implements
     this.clientId = clientId;
 
     config = new PayPalConfiguration().environment(environment).clientId(clientId);
-
+    config = config.acceptCreditCards(false);
     Intent intent = new Intent(reactContext, PayPalService.class);
     intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
     reactContext.startService(intent);
@@ -146,7 +146,7 @@ public class RNPaypalWrapperModule extends ReactContextBaseJavaModule implements
         .merchantUserAgreementUri(Uri.parse(merchantUserAgreementUri));
 
     }
-
+    config = config.acceptCreditCards(false);
     Intent intent = new Intent(reactContext, PayPalService.class);
     intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
     reactContext.startService(intent);
